@@ -43,20 +43,53 @@ All of the numerical and boolean variables are heavily left skewed
 ![title](Images/dist.png)
 
 ## Modeling
-The final model metrics are shown below
+
+For modeling we used RandomizedSearchCV to hyperparemeter tune a Random Forest model. The following contains the hyperparameter search space:
+
+* n_estimators : randint(20, 300)
+
+* max_depth : randint(3,20)
+
+* min_samples_split : randint(2,10)
+
+* min_samples_leaf : randint(1,10)
+
+* max_features : randint(1, 15)
+
+* criterion : ['gini', 'entropy']
+
+
+The chosen hyperparameters from the RandomizedSearchCV are below:
+
+* n_estimators : 87
+* max_depth : 5
+* min_samples_split : 7
+* min_samples_leaf : 9
+* max_features : 14
+* criterion : 'entropy'
+
+
+## Results
+The final model metrics on the test set using the chosen hyperparameters are shown below:
+
 |Model Name|	f1 score	|test_acc	|roc	|precision	|recall
 |:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
 |Random Forest	|0.917	|0.977	|0.996|	0.945|	0.890|
 
-By far the most important feature was 'days between_creation_and_last_session' which 
+## Feature Importance
+By far the most important feature was 'days between_creation_and_last_session'. The importance metric used is the mean decrease of impurity within each tree which the varible 'days between_creation_and_last_session' has a value of 0.9815.
 
 ![title](Images/feat.png)
 
 
-
 ## Ideas for Future Research
 
-* Defining an "adopted user" as a user who has logged into the product on three separate days in at least one seven-day period might not be the best metric for a user who has 'adopted' the product. The creation times and last session times span over 2 years: May 2012 - May-2014. That means a user who logged in 3 times withina 7 day period in early 2012 but has never logged on since would still be considered an 'adopted user'. A better metric would be one that considers recent logins more heavily. 
+* Defining an "adopted user" as a user who has logged into the product on three separate days in at least one seven-day period might not be the best metric for a user who has 'adopted' the product. The creation times and last session times span over 2 years: May 2012 - May-2014. That means a user who logged in 3 times withina 7 day period in early 2012 but has never logged on since would still be considered an 'adopted user'. A better metric would be one that weighs recent logins more heavily. 
 
 
-* Some more data which could be useful is login length or session logout time. with this data we can see how long a user is logged in for which could be helpful.
+* Some more data which could be useful is login length or session logout time. With this data we can see how long a user is logged in for which could be helpful.
+
+
+```python
+
+```
